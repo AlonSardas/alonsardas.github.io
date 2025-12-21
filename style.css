@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: monospace;
+}
+
+#container {
+    width: 100vw;
+    height: 100vh;
+}
+
+#controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(50, 50, 50, 0.85);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    max-width: 320px;
+}
+
+.input-group {
+    margin: 8px 0;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 12px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 6px;
+    background: #333;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+button {
+    background: #00ff88;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: monospace;
+    font-weight: bold;
+    margin: 5px 0;
+    width: 100%;
+}
+
+button:hover {
+    background: #00dd77;
+}
+
+button:disabled {
+    background: #555;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.slider-container {
+    margin: 15px 0;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+.vertex-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.mode-indicator {
+    font-size: 16px;
+    font-weight: bold;
+    color: #00ff88;
+    margin-bottom: 10px;
+}
+
+#message {
+    color: #ff3366;
+    margin: 10px 0;
+    display: none;
+}

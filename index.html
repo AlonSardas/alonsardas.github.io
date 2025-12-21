@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFFQM Pattern Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="container"></div>
+    <div id="controls">
+        <div class="mode-indicator" id="mode">Mode: Design</div>
+
+        <div id="design-controls">
+            <p>Design the L-shaped boundary pattern</p>
+            <div id="vertices-list"></div>
+            <button id="generate-miura-btn">Generate Miura-Ori Boundary</button>
+            <div id="miura-params" class="param-panel" style="display: none;">
+                <h3>Miura-Ori Parameters</h3>
+
+                <div class="input-group">
+                    <label>Horizontal Vertices (nx):</label>
+                    <input type="number" id="x-verts" value="6" min="2">
+                </div>
+
+                <div class="input-group">
+                    <label>Vertical Vertices (ny):</label>
+                    <input type="number" id="y-verts" value="6" min="2">
+                </div>
+
+                <div class="input-group">
+                    <label>Angle (θ°):</label>
+                    <input type="number" id="theta" value="30" step="1">
+                </div>
+
+                <div class="input-group">
+                    <label>Lx-Length:</label>
+                    <input type="number" id="h-length" value="1" step="0.5">
+                </div>
+
+                <div class="input-group">
+                    <label>Ly-Length:</label>
+                    <input type="number" id="v-length" value="1" step="0.5">
+                </div>
+
+                <div class="actions">
+                    <button id="apply-miura-btn" class="primary">Generate Boundary</button>
+                    <button onclick="document.getElementById('miura-params').style.display='none'">Cancel</button>
+                </div>
+            </div>
+            <button id="build-btn">Build RFFQM Pattern</button>
+            <label>Build Speed</label>
+            <input type="range" id="speedSlider" min="1" max="100" value="70">
+            <button id="fold-btn" style="display: none; background-color: #ff9800;">Fold Pattern</button>
+        </div>
+
+        <div id="folding-controls" style="display: none;">
+            <p>Folding Mode</p>
+            <div class="slider-container">
+                <label>Activation Angle: <span id="angle-value">0°</span></label>
+                <input type="range" id="angle-slider" min="0" max="180" value="0" step="1">
+            </div>
+            <button id="back-to-design-btn">Back to Design</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/Main.js"></script>
+</body>
+
+</html>
