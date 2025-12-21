@@ -11,7 +11,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1a1a1a);
 
 const camera = new THREE.PerspectiveCamera(
-    75,
+    35,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
@@ -22,11 +22,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
 // Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+const ambientLight = new THREE.AmbientLight(0xffffff, 5.0);
 scene.add(ambientLight);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(5, 5, 5);
-scene.add(directionalLight);
+const sunLight = new THREE.DirectionalLight(0xffffff, 3.5);
+sunLight.position.set(10, 20, 10);
+scene.add(sunLight);
+const fillLight = new THREE.PointLight(0xffffff, 2.8);
+fillLight.position.set(-10, -5, -10);
+scene.add(fillLight);
 
 // ============================================
 // INITIALIZATION & ANIMATION

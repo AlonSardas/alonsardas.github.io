@@ -20,5 +20,15 @@ export function generateMiura(xVerts, yVerts, thetaRad, hLength, vLength) {
         vertical.push({ pos: new THREE.Vector3(0, j * vLength, 0), alpha: thetaRad });
     }
 
+    // Center
+    const width = horizontal[xVerts - 1 - (1 - xVerts % 2)].pos.x;
+    const height = vertical.at(-1).pos.y;
+    
+    const centeringShift = new THREE.Vector3(-width / 2, -height / 2, 0);
+
+    // Apply to all generated objects
+    horizontal.forEach(v => v.pos.add(centeringShift));
+    vertical.forEach(v => v.pos.add(centeringShift));
+
     return { horizontal, vertical };
 }

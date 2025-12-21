@@ -118,9 +118,9 @@ export class RFFQM {
             current_gamma1 = g3;   // This is the seed angle for the next row
         }
 
-        // if (shouldCenter) {
-        //     this.centerPattern();
-        // }
+        if (shouldCenter) {
+            alignDotsToXY(this.dots, this.rows, this.cols);
+        }
 
         return this.dots;
     }
@@ -183,3 +183,88 @@ export function calc_gamma2(sigma, omega, alpha, beta) {
 export function calc_gamma1(sigma, omega, alpha, beta) {
     return calc_gamma2(-sigma, omega, alpha, Math.PI - beta);
 }
+
+export function alignDotsToXY(dots, rows, cols) {
+    // 1. Calculate the current normal of the mesh
+    const p00 = dots[0][0];
+    const pEnd0 = dots[rows - 1][0];
+    const p0End = dots[0][cols - 1 - (1 - cols % 2)];
+
+    const vy = new THREE.Vector3().subVectors(pEnd0, p00);
+    const vx = new THREE.Vector3().subVectors(p0End, p00);
+
+    const n1 = new THREE.Vector3().crossVectors(vx, vy).normalize();
+    const nTarget = new THREE.Vector3(0, 0, 1);
+
+    // 2. Align normal to Z-axis [0, 0, 1]
+    const angle = nTarget.angleTo(n1);
+
+    if (Math.abs(angle) < 0.0001) {
+        // Already aligned
+    } else if (Math.abs(angle - Math.PI) < 0.0001) {
+        // Upside down - rotate 180 on X
+        const R = new THREE.Matrix4().makeRotationX(Math.PI);
+        LinalgUtils.applyMatrixToDots(dots, R);
+    } else {
+        // Calculate axis to tilt the mesh flat
+        const rotAxis = new THREE.Vector3().crossVectors(nTarget, n1).normalize();
+        const R = LinalgUtils.createRotationAroundAxis(rotAxis, -angle);
+        LinalgUtils.applyMatrixToDots(dots, R);
+    }
+
+    // 3. Align the vertical axis of the pattern to the Y-axis [0, 1, 0]
+    const p00_new = dots[0][0];
+    const pEnd0_new = dots[rows - 1][0];
+    const vec = new THREE.Vector3().subVectors(pEnd0_new, p00_new);
+
+    // Project onto XY plane (set Z to 0)
+    const vecXY = new THREE.Vector3(vec.x, vec.y, 0);
+    const targetY = new THREE.Vector3(0, 1, 0);
+
+    let angleXY = vecXY.angleTo(targetY);
+
+    // Determine direction
+    if (vec.x < 0) {
+        angleXY *= -1;
+    }
+
+    const R_xy = new THREE.Matrix4().makeRotationZ(angleXY);
+    LinalgUtils.applyMatrixToDots(dots, R_xy);
+
+    const vy2 = new THREE.Vector3().subVectors(pEnd0, p00);
+    const vx2 = new THREE.Vector3().subVectors(p0End, p00);
+    const width = vx2.length();  // Total distance along X
+    const height = vy2.length(); // Total distance along Y
+    // const offset = p00.clone().negate();
+
+    const centeringShift = new THREE.Vector3(
+        -p00.x - (width / 2),
+        -p00.y - (height / 2),
+        -p00.z
+    );
+    dots.forEach(row => {
+        row.forEach(v => v.add(centeringShift));
+    });
+
+    return dots;
+}
+
+export const LinalgUtils = {
+    // Rotates a set of points (dots) by a matrix
+    applyMatrixToDots(dots, matrix) {
+        // log.console(dots[0][0]);
+        dots.forEach(row => {
+            row.forEach(v => {
+                v.applyMatrix4(matrix);
+            });
+        });
+    },
+
+    // Standard rotation around a custom axis
+    createRotationAroundAxis(axis, angle) {
+        const mat = new THREE.Matrix4();
+        const quat = new THREE.Quaternion().setFromAxisAngle(axis.normalize(), angle);
+        mat.makeRotationFromQuaternion(quat);
+        return mat;
+    }
+};

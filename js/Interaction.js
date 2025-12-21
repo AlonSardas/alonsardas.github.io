@@ -11,7 +11,7 @@ export const Interaction = {
     mouse: new THREE.Vector2(),
     selectedObject: null,
     dragMode: 'POSITION', // 'POSITION' or 'ANGLE'
-    zoomLevel: 5,
+    zoomLevel: 13,
 
     isDragging: false,
     lastMousePosition: { x: 0, y: 0 },
@@ -28,7 +28,7 @@ export const Interaction = {
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-        this.controls.enableDamping = true;
+        this.controls.enableDamping = false;
         this.controls.dampingFactor = 0.05;
         this.controls.screenSpacePanning = true;
         this.camera.position.set(0, 0, this.zoomLevel);

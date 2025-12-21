@@ -32,9 +32,11 @@ export const UI = {
         document.getElementById('back-to-design-btn').addEventListener('click', () => this.backToDesign());
 
         document.getElementById('angle-slider').addEventListener('input', (e) => {
-            AppState.activationAngle = parseFloat(e.target.value);
+            let val = parseFloat(e.target.value);
+            AppState.activationAngle = val;
             document.getElementById('angle-value').textContent = AppState.activationAngle + '°';
-            FoldingMode.updateFolding(AppState.activationAngle * Math.PI / 180);
+            if (val >= 180) val = 179.9;
+            FoldingMode.updateFolding(val * Math.PI / 180);
         });
     },
 
@@ -152,7 +154,7 @@ export const UI = {
         this.buildArtifacts.push(betaLine);
 
         // --- Draw Alpha Ray ---
-        const rightDir = rotateXY(upDir, -alpha).multiplyScalar(rayLength);
+        const rightDir = rotateXY(upDir, -alpha);
         const alphaGeom = new THREE.BufferGeometry().setFromPoints([pos, pos.clone().add(rightDir)]);
         const alphaLine = new THREE.Line(alphaGeom, rayMat);
         this.scene.add(alphaLine);
@@ -194,6 +196,11 @@ export const UI = {
         document.getElementById('design-controls').style.display = 'block';
         document.getElementById('fold-btn').style.display = 'block';
         document.getElementById('folding-controls').style.display = 'none';
+
+        // Reset angle slider
+        AppState.activationAngle = 0;
+        document.getElementById('angle-value').textContent = AppState.activationAngle + '°';
+        document.getElementById('angle-slider').value = 0;
 
         FoldingMode.clear();
         this.setBuildVisibility(true);
