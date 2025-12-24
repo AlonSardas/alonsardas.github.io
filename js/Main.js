@@ -74,10 +74,10 @@ function init() {
     }, false);
 
     function handleTouch(e, mouseFunction) {
-        console.alert('Touch event detected');
+        alert('Touch event detected');
 
         if (e.touches.length > 0) {
-            console.alert('Touch event detected');
+            alert('Touch event detected');
             const touch = e.touches[0];
 
             const simulatedEvent = {
