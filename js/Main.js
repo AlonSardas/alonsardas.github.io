@@ -65,8 +65,8 @@ function init() {
     canvas.addEventListener('mouseup', () => Interaction.onMouseUp());
 
     // Touch events for mobile devices
-    canvas.addEventListener('touchstart', (e) => handleTouch(e, Interaction.onMouseDown), { passive: false });
-    canvas.addEventListener('touchmove', (e) => handleTouch(e, Interaction.onMouseMove), { passive: false });
+    canvas.addEventListener('touchstart', (e) => handleTouch(e, (ev) => Interaction.onMouseDown(ev)), { passive: false });
+    canvas.addEventListener('touchmove', (e) => handleTouch(e, (ev) => Interaction.onMouseMove(ev)), { passive: false });
     canvas.addEventListener('touchend', () => Interaction.onMouseUp());
 
     canvas.addEventListener('contextmenu', (e) => {
@@ -81,9 +81,9 @@ function init() {
             const simulatedEvent = {
                 clientX: touch.clientX,
                 clientY: touch.clientY,
+                target: e.target,
                 preventDefault: () => e.preventDefault()
             };
-
             e.preventDefault();
 
             mouseFunction(simulatedEvent);
