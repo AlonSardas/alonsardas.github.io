@@ -63,8 +63,14 @@ body {
     box-sizing: border-box;
 }
 
-.input-group {
-    margin: 8px 0;
+#design-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+#design-controls p {
+    margin-bottom: 5px;
 }
 
 .input-group label {
@@ -203,7 +209,7 @@ input[type="range"] {
 .info-content {
     padding-left: 10px;
     padding-right: 10px;
-    font-size: 13.5px;
+    font-size: 15px;
     color: #333;
     overflow-y: auto;
     max-height: calc(80vh);

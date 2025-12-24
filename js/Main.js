@@ -41,12 +41,6 @@ scene.add(ambientLight);
 const sunLight1 = new THREE.DirectionalLight(0xffffff, 3.5);
 sunLight1.position.set(-10, 20, 10);
 scene.add(sunLight1);
-// const sunLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
-// sunLight2.position.set(10, -20, -10);
-// scene.add(sunLight2);
-// const fillLight = new THREE.PointLight(0xffffff, 2.8);
-// fillLight.position.set(-10, -5, -10);
-// scene.add(fillLight);
 
 // ============================================
 // INITIALIZATION & ANIMATION
@@ -55,6 +49,8 @@ function init() {
     DesignMode.init(scene);
     UI.init(scene, camera);
     UI.generateMiuraBoundary();
+    const msg = document.getElementById('message');
+    msg.style.display = 'none';
 
     Interaction.init(scene, camera, renderer);
 
@@ -63,11 +59,31 @@ function init() {
             panel.classList.remove('active');
         }
     });
-    document.addEventListener('mousedown', (e) => Interaction.onMouseDown(e));
-    document.addEventListener('mousemove', (e) => Interaction.onMouseMove(e));
-    document.addEventListener('mouseup', () => Interaction.onMouseUp());
-    // document.addEventListener('wheel', (e) => Interaction.onWheel(e), { passive: false });
-    // document.addEventListener('contextmenu', (e) => e.preventDefault()); // Disable right-click menu
+    const canvas = renderer.domElement;
+    canvas.addEventListener('mousedown', (e) => Interaction.onMouseDown(e));
+    canvas.addEventListener('mousemove', (e) => Interaction.onMouseMove(e));
+    canvas.addEventListener('mouseup', () => Interaction.onMouseUp());
+
+    // Touch events for mobile devices
+    canvas.addEventListener('touchstart', (e) => handleTouch(e, Interaction.onMouseDown), { passive: false });
+    canvas.addEventListener('touchmove', (e) => handleTouch(e, Interaction.onMouseMove), { passive: false });
+    canvas.addEventListener('touchend', () => Interaction.onMouseUp());
+
+    function handleTouch(e, mouseFunction) {
+        if (e.touches.length > 0) {
+            const touch = e.touches[0];
+
+            const simulatedEvent = {
+                clientX: touch.clientX,
+                clientY: touch.clientY,
+                preventDefault: () => e.preventDefault()
+            };
+
+            e.preventDefault();
+
+            mouseFunction(simulatedEvent);
+        }
+    }
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;

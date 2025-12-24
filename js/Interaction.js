@@ -51,8 +51,6 @@ export const Interaction = {
     },
 
     onMouseDown(event) {
-        if (event.target.tagName !== 'CANVAS') return;
-
         this.lastMousePosition = { x: event.clientX, y: event.clientY };
 
         if (AppState.mode === 'design' || AppState.mode === 'built') {
