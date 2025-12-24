@@ -64,8 +64,6 @@ export class RFFQM {
         let initial_gamma2 = g2;
         let current_gamma1 = gamma;
 
-        console.log(`Setting gamma to ${gamma}`);
-
         // --- 2. Fold the first (bottom) row ---
         i = 1;
         for (j = 1; j < this.cols - 1; j++) {

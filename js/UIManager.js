@@ -48,6 +48,7 @@ export const UI = {
         const vLength = parseFloat(document.getElementById('v-length').value);
 
         this.clearPreviousBuild();
+        AppState.mode = 'design';
 
         const { horizontal, vertical } = generateMiura(xVerts, yVerts, theta, hLength, vLength);
         AppState.horizontalVertices = horizontal;
@@ -68,7 +69,6 @@ export const UI = {
         this.showMessage('Marching Algorithm Started...');
         AppState.mode = 'building';
 
-        console.log("removing fold btn");
         const foldBtn = document.getElementById('fold-btn');
         foldBtn.style.display = 'none';
         this.clearPreviousBuild();
@@ -85,9 +85,17 @@ export const UI = {
                     const newPos = MarchingAlgorithm.calcNextVertex(i, j);
                     this.drawVertexPosition(i, j, newPos);
                     await new Promise(r => setTimeout(r, delay));
+                    if (AppState.mode === 'design') {
+                        // Build was cancelled, exit early
+                        return;
+                    }
                     MarchingAlgorithm.calcNextAngle(i, j);
                     this.drawVertexRays(i, j, newPos);
                     await new Promise(r => setTimeout(r, delay));
+                    if (AppState.mode === 'design') {
+                        // Build was cancelled, exit early
+                        return;
+                    }
                 } catch (e) {
                     console.error(`RFFQM Build Failed at [${i}, ${j}] `);
                     console.error(e);

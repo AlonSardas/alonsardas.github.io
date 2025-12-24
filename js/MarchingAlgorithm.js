@@ -31,7 +31,7 @@ export const MarchingAlgorithm = {
         const vUp = verticalVertices[0].pos;
         this.alphas[0][0] = Math.atan2(vUp.y - v.y, vUp.x - v.x) - Math.atan2(vRight.y - v.y, vRight.x - v.x);
         this.betas[0][0] = this.alphas[0][0];  // Assuming symmetry at the corner; It might be better to let the user define both
-        console.log(`Corner alpha: ${this.alphas[0][0]}, beta: ${this.betas[0][0]}`);
+        // console.log(`Corner alpha: ${this.alphas[0][0]}, beta: ${this.betas[0][0]}`);
 
         for (let j = 1; j < this.cols; j++) {
             const v = horizontalVertices[j];
@@ -52,7 +52,7 @@ export const MarchingAlgorithm = {
                 this.alphas[0][j] = this.betas[0][j];
             }
 
-            console.log(`H[${j}] alpha: ${this.alphas[0][j]}, beta: ${this.betas[0][j]}`);
+            // console.log(`H[${j}] alpha: ${this.alphas[0][j]}, beta: ${this.betas[0][j]}`);
         }
 
         for (let i = 1; i < this.rows; i++) {
@@ -73,7 +73,7 @@ export const MarchingAlgorithm = {
                 this.alphas[i][0] = this.betas[i][0];
             }
 
-            console.log(`V[${i}] alpha: ${this.alphas[i][0]}, beta: ${this.betas[i][0]}`);
+            // console.log(`V[${i}] alpha: ${this.alphas[i][0]}, beta: ${this.betas[i][0]}`);
         }
 
         // console.log("final betas:", this.betas[this.rows - 1][0]);
@@ -130,7 +130,7 @@ export const MarchingAlgorithm = {
         // 6. Store results
         this.alphas[i][j] = Math.PI - alpha_d;
         this.betas[i][j] = Math.PI - beta_d;
-        console.log(`Angles At [${i}, ${j}] alpha: ${this.alphas[i][j]}, beta: ${this.betas[i][j]}`);
+        // console.log(`Angles At [${i}, ${j}] alpha: ${this.alphas[i][j]}, beta: ${this.betas[i][j]}`);
     },
 
     mu1(a, b, s) {
@@ -157,8 +157,8 @@ export const MarchingAlgorithm = {
         // l_ac and l_ab from Python
         const l_ac = p_A.distanceTo(p_C);
         const l_ab = p_A.distanceTo(p_B);
-        console.log("P_a:", p_A, "P_b:", p_B, "P_c:", p_C);
-        console.log(`Lengths l_ac: ${l_ac}, l_ab: ${l_ab}`);
+        // console.log("P_a:", p_A, "P_b:", p_B, "P_c:", p_C);
+        // console.log(`Lengths l_ac: ${l_ac}, l_ab: ${l_ab}`);
 
         // alpha_a: angle at (i-1, j-1)
         // alpha_b: angle at (i, j-1) -> pi - beta
@@ -166,7 +166,7 @@ export const MarchingAlgorithm = {
         const alpha_a = this.alphas[i - 1][j - 1];
         const alpha_b = Math.PI - this.betas[i][j - 1];
         const alpha_c = this.betas[i - 1][j];
-        console.log(`Calculating D at [${i}, ${j}] with alphas: ${alpha_a}, ${alpha_b}, ${alpha_c}`);
+        // console.log(`Calculating D at [${i}, ${j}] with alphas: ${alpha_a}, ${alpha_b}, ${alpha_c}`);
         const angles_sum = alpha_a + alpha_b + alpha_c;
         const det = Math.sin(angles_sum);
 
@@ -175,7 +175,7 @@ export const MarchingAlgorithm = {
         const l_cd = (1 / det) * (-Math.sin(alpha_b) * l_ab + Math.sin(alpha_a + alpha_b) * l_ac);
         const l_bd = (1 / det) * (Math.sin(alpha_a + alpha_c) * l_ab - Math.sin(alpha_c) * l_ac);
 
-        console.log(`Lengths l_cd: ${l_cd}, l_bd: ${l_bd}`);
+        // console.log(`Lengths l_cd: ${l_cd}, l_bd: ${l_bd}`);
 
         if (l_cd <= 0 || l_bd <= 0) {
             throw new Error(`Incompatible: Non-positive crease length at ${i},${j}`);

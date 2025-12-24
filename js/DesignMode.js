@@ -15,7 +15,6 @@ export const DesignMode = {
     angleRays: [],
 
     init(scene = required('scene')) {
-        console.log('DesignMode init', scene);
         this.scene = scene;
         this.clear();
 
