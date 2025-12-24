@@ -82,7 +82,7 @@ export const Interaction = {
             if (AppState.mode === 'built') {
                 AppState.mode = 'design';
                 const foldBtn = document.getElementById('fold-btn');
-                if (foldBtn) foldBtn.style.display = 'none';
+                foldBtn.style.display = 'none';
             }
 
             return true;

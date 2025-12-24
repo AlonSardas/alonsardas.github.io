@@ -60,9 +60,17 @@ export const UI = {
     },
 
     async buildPattern() {
+        if (AppState.mode === 'building') {
+            this.showMessage('Build already in progress...');
+            return;
+        }
+
         this.showMessage('Marching Algorithm Started...');
         AppState.mode = 'building';
 
+        console.log("removing fold btn");
+        const foldBtn = document.getElementById('fold-btn');
+        foldBtn.style.display = 'none';
         this.clearPreviousBuild();
 
         const rows = AppState.verticalVertices.length + 1;
@@ -92,7 +100,6 @@ export const UI = {
 
         AppState.fullGrid = MarchingAlgorithm.dots;
         this.showMessage("Marching Algorithm Completed");
-        const foldBtn = document.getElementById('fold-btn');
         AppState.mode = 'built';
         foldBtn.style.display = 'block';
     },
