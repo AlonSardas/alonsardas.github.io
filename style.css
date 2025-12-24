@@ -1,3 +1,10 @@
+:root {
+    /* Dimensions */
+    --controls-panel-width: 350px;
+    --info-panel-width: 350px;
+    --ui-gap: 15px;
+}
+
 body {
     margin: 0;
     overflow: hidden;
@@ -9,11 +16,10 @@ body {
     height: 100vh;
 }
 
-#controls-header {
+.panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .ui-wrapper {
@@ -21,25 +27,40 @@ body {
     top: 20px;
     left: 20px;
     display: flex;
-    /* Puts items in a row */
     align-items: flex-start;
-    /* Aligns them at the top */
-    gap: 15px;
-    /* Spacing between the box and the button */
-    /* pointer-events: none; */
-    /* Allows clicking through to the 3D scene */
+    gap: var(--ui-gap);
+    max-height: calc(100vh - 40px);
+}
+
+/* Mobile: Stack vertically and make info panel overlay */
+@media (max-width: 768px) {
+    .ui-wrapper {
+        flex-direction: column;
+    }
+
+    #controls {
+        width: 100%;
+        margin: 0;
+    }
+
+    #info-panel {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        margin: 0;
+        max-height: calc(100vh - 40px);
+    }
 }
 
 #controls {
-    /* position: absolute;
-    top: 20px;
-    left: 20px; */
     background: rgba(50, 50, 50, 0.85);
     color: white;
     padding: 20px;
     border-radius: 8px;
     font-size: 14px;
-    max-width: 320px;
+    width: var(--controls-panel-width);
+    /* Include padding in width calculation */
+    box-sizing: border-box;
 }
 
 .input-group {
@@ -115,7 +136,6 @@ input[type="range"] {
 
 .info-container {
     position: relative;
-    font-family: sans-serif;
 }
 
 .info-button {
@@ -141,19 +161,19 @@ input[type="range"] {
 }
 
 
-.info-panel {
+#info-panel {
     display: none;
+    overflow: hidden;
+    font-family: sans-serif;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    width: 320px;
+    width: var(--info-panel-width);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    /* transform-origin: top left; */
-    position: fixed;
 }
 
-.info-panel.active {
+#info-panel.active {
     display: block;
     animation: fadeIn 0.3s ease;
 }
@@ -185,6 +205,8 @@ input[type="range"] {
     padding-right: 10px;
     font-size: 13.5px;
     color: #333;
+    overflow-y: auto;
+    max-height: calc(80vh);
 }
 
 .info-content p {

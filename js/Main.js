@@ -6,13 +6,16 @@ import { Interaction } from './Interaction.js';
 // ============================================
 // INFO PANEL TOGGLE
 // ============================================
-const infoBtn = document.getElementById('infoButton');
-const panel = document.getElementById('infoPanel');
+const infoBtn = document.getElementById('info-btn');
+const closeInfoBtn = document.getElementById('close-info-btn');
+const panel = document.getElementById('info-panel');
 
 infoBtn.addEventListener('click', () => {
-    // panel.classList.add('active');
-    // infoBtn.style.visibility = 'hidden'; // Hide button when panel is open
     panel.classList.toggle('active');
+});
+
+closeInfoBtn.addEventListener('click', () => {
+    panel.classList.remove('active');
 });
 
 // ============================================

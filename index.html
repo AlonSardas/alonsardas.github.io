@@ -13,16 +13,16 @@
 
     <div class="ui-wrapper">
         <div id="controls">
-            <div id="controls-header">
+            <div class="panel-header">
                 <div class="mode-indicator" id="mode">Mode: Design</div>
 
-                <button class="info-button" id="infoButton" aria-label="Show information">
+                <button class="info-button" id="info-btn" aria-label="Show information">
                     <span style="font-size: 20px; font-weight: bold; color: #3b82f6;">?</span>
                 </button>
             </div>
 
             <div id="design-controls">
-                <p>Design the L-shaped boundary pattern</p>
+                <p>Configure the L-shaped boundary</p>
                 <div id="vertices-list"></div>
                 <button id="generate-miura-btn">Generate Miura-Ori Boundary</button>
                 <div id="miura-params" class="param-panel" style="display: none;">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <button id="build-btn">Build RFFQM Pattern</button>
-                <label>Build Speed</label>
+                <label>Pattern Building Speed</label>
                 <input type="range" id="speedSlider" min="1" max="100" value="70">
                 <button id="fold-btn" style="display: none; background-color: #ff9800;">Fold Pattern</button>
             </div>
@@ -76,51 +76,54 @@
             <div id="message"></div>
         </div>
 
-        <div class="info-container">
-            <div class="info-panel" id="infoPanel">
-                <div class="info-header">
+        <div id="info-panel">
+            <div class="info-header">
+                <div class="panel-header">
                     <h4 style="margin-top: 0; margin-bottom: 0;">RFFQM Origami</h4>
                 </div>
+                <button class="info-button" id="close-info-btn" aria-label="Close information panel">
+                    <span style="font-size: 20px; font-weight: bold; color: #3b82f6;">×</span>
+                </button>
+            </div>
 
-                <div class="info-content">
-                    <p><strong>Rigid and Flat-Foldable Quadrilateral Mesh (RFFQM)</strong> origami patterns are
-                        generalizations of the periodic Miura-Ori pattern.</p>
-                    <p>These patterns can be constructed by propagating the input data from the left and bottom
-                        boundaries to the rest of the pattern.
-                    </p>
+            <div class="info-content">
+                <p><strong>Rigid and Flat-Foldable Quadrilateral Mesh (RFFQM)</strong> origami patterns are
+                    generalizations of the periodic Miura-Ori pattern.</p>
+                <p>These patterns can be constructed by propagating the input data from the left and bottom
+                    boundaries to the rest of the pattern.
+                </p>
 
-                    <p>
-                        Here you can <strong>edit the boundary</strong> and see the <strong>folding process</strong> of
-                        the resulting pattern.
-                    </p>
+                <p>
+                    Here you can <strong>edit the boundary</strong> and see the <strong>folding process</strong> of
+                    the resulting pattern.
+                </p>
 
-                    <hr class="info-divider">
+                <hr class="info-divider">
 
-                    <div class="reference-section">
-                        <!-- <div class="reference-title"></div> -->
+                <div class="reference-section">
+                    <!-- <div class="reference-title"></div> -->
+                    <!-- <p> -->
+                    <ul class="ref-list">
+                        <li>
+                            <span>Simulator is based on the algorithm from:</span>
+                            <a href="https://doi.org/10.1016/j.jmps.2020.104018" target="_blank"
+                                rel="noopener noreferrer" class="reference-link">The designs and deformations of
+                                rigidly and flat-foldable quadrilateral mesh
+                                origami</a>
+                        </li>
+                        <!-- </p> -->
+
+                        <!-- <div class="reference-title" style="margin-top:12px;"></div> -->
                         <!-- <p> -->
-                        <ul class="ref-list">
-                            <li>
-                                <span>Simulator is based on the algorithm from:</span>
-                                <a href="https://doi.org/10.1016/j.jmps.2020.104018" target="_blank"
-                                    rel="noopener noreferrer" class="reference-link">The designs and deformations of
-                                    rigidly and flat-foldable quadrilateral mesh
-                                    origami</a>
-                            </li>
-                            <!-- </p> -->
-
-                            <!-- <div class="reference-title" style="margin-top:12px;"></div> -->
-                            <!-- <p> -->
-                            <li>
-                                <span>Also check out our work:</span>
-                                <a href="https://doi.org/10.1016/j.jmps.2024.106003" target="_blank"
-                                    rel="noopener noreferrer" class="reference-link">A continuum geometric approach for
-                                    inverse design of origami structures</a><span>,
-                                    where we used RFFQM patterns to inverse design target surfaces.</span>
-                            </li>
-                            <!-- </p> -->
-                        </ul>
-                    </div>
+                        <li>
+                            <span>Also check out our work:</span>
+                            <a href="https://doi.org/10.1016/j.jmps.2024.106003" target="_blank"
+                                rel="noopener noreferrer" class="reference-link">A continuum geometric approach for
+                                inverse design of origami structures</a><span>,
+                                where we used RFFQM patterns to inverse design target surfaces.</span>
+                        </li>
+                        <!-- </p> -->
+                    </ul>
                 </div>
             </div>
         </div>
