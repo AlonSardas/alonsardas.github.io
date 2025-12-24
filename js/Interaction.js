@@ -115,8 +115,10 @@ export const Interaction = {
     },
 
     updateMouseCoords(event) {
-        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        const rect = this.renderer.domElement.getBoundingClientRect();
+        // console.log(rect);
+        this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     },
 
     onMouseUp() {

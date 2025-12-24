@@ -84,7 +84,6 @@ function init() {
                 preventDefault: () => e.preventDefault()
             };
 
-
             e.preventDefault();
 
             mouseFunction(simulatedEvent);
