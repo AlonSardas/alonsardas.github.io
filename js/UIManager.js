@@ -13,6 +13,7 @@ export const UI = {
     scene: null,
     camera: null,
     buildArtifacts: [],
+    messageTimer: null,
 
     init(scene, camera) {
         this.scene = scene;
@@ -224,9 +225,15 @@ export const UI = {
     },
 
     showMessage(text) {
+        if (this.messageTimer) {
+            clearTimeout(this.messageTimer);
+        }
+
         const msg = document.getElementById('message');
         msg.textContent = text;
         msg.style.display = 'block';
-        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+        this.messageTimer = setTimeout(() => {
+            msg.style.display = 'none';
+        }, 3000);
     }
 };
