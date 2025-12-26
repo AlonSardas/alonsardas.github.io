@@ -66,17 +66,16 @@ export const DesignMode = {
             0
         );
 
-        // 3. ADD THIS: Control Sphere at the tip of the ray
+        // 3. Control Sphere at the tip of the ray
         const handleGeom = new THREE.SphereGeometry(0.075, 8, 8); // Smaller than the main vertex
         const handleMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         const handle = new THREE.Mesh(handleGeom, handleMat);
         handle.position.copy(rayEnd);
 
-        // Crucial: Mark this as a 'ray-handle' so we can distinguish it from the vertex
         handle.userData = { type, index, isRayHandle: true };
 
         this.scene.add(handle);
-        this.spheres.push(handle); // Add to the same list so it's raycastable
+        this.spheres.push(handle);
 
         // 4. Create the visible line for the ray
         const rayPoints = [vertex.pos, rayEnd];
@@ -85,7 +84,7 @@ export const DesignMode = {
         const rayLine = new THREE.Line(rayLineGeom, rayLineMat);
 
         this.scene.add(rayLine);
-        this.angleRays.push(rayLine); // Ensure this is pushed so it gets cleared in this.clear()
+        this.angleRays.push(rayLine);
 
         // 5. Create lines connecting vertices within the same arm
         const list = type === 'horizontal' ? AppState.horizontalVertices : AppState.verticalVertices;

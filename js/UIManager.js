@@ -42,6 +42,23 @@ export const UI = {
     },
 
     generateMiuraBoundary() {
+        // List the IDs of your inputs
+        const ids = ['x-verts', 'y-verts', 'theta', 'h-length', 'v-length'];
+        let allValid = true;
+
+        // Check each input
+        for (const id of ids) {
+            const el = document.getElementById(id);
+            if (!el.checkValidity()) {
+                el.reportValidity();
+                allValid = false;
+                break;
+            }
+        }
+
+        // Stop if any input is invalid
+        if (!allValid) return;
+
         const xVerts = parseInt(document.getElementById('x-verts').value);
         const yVerts = parseInt(document.getElementById('y-verts').value);
         const theta = parseFloat(document.getElementById('theta').value) * Math.PI / 180;

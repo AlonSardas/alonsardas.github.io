@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { UI } from './UIManager.js';
 import { DesignMode } from './DesignMode.js';
 import { Interaction } from './Interaction.js';
+import { FoldingMode } from './FoldingMode.js';
 
 // ============================================
 // INFO PANEL TOGGLE
@@ -36,11 +37,25 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
 // Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 4.0);
+const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
 scene.add(ambientLight);
-const sunLight1 = new THREE.DirectionalLight(0xffffff, 3.5);
-sunLight1.position.set(-10, 20, 10);
-scene.add(sunLight1);
+const sunLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
+sunLight1.position.set(-10, 20, -10);
+// scene.add(sunLight1);
+
+const sunLight2 = new THREE.DirectionalLight(0xffffff, 2.5);
+sunLight2.position.set(10, 5, 10);
+// sunLight2.castShadow = true;
+
+// sunLight2.shadow.camera.top = 10;
+// sunLight2.shadow.camera.bottom = -10;
+// sunLight2.shadow.camera.left = -10;
+// sunLight2.shadow.camera.right = 10;
+// sunLight2.shadow.mapSize.set(1024, 1024); // Quality of the shadow
+
+scene.add(sunLight2);
+// renderer.shadowMap.enabled = true
+// renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 // ============================================
 // INITIALIZATION & ANIMATION
@@ -94,6 +109,7 @@ function init() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        FoldingMode.onResize(window.innerWidth, window.innerHeight);
     });
 }
 

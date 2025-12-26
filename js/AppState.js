@@ -6,5 +6,5 @@ export const AppState = {
     horizontalVertices: [], // List of { pos: Vector3, alpha: num }
     verticalVertices: [],   // List of { pos: Vector3, alpha: num }
     activationAngle: 0,
-    rffqmData: null // Will hold the built pattern data
+    rffqmData: null
 };
