@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { MarchingAlgorithm } from './MarchingAlgorithm.js';
+import { MarchingAlgorithm, IncompatibleError } from './MarchingAlgorithm.js';
 import { generateMiura } from './MiuraOriBoundary.js';
 import { AppState } from './AppState.js';
 import { DesignMode } from './DesignMode.js';
@@ -93,7 +93,20 @@ export const UI = {
 
         const rows = AppState.verticalVertices.length + 1;
         const cols = AppState.horizontalVertices.length;
-        MarchingAlgorithm.init(rows, cols, AppState.horizontalVertices, AppState.verticalVertices);
+
+        try {
+            MarchingAlgorithm.init(rows, cols, AppState.horizontalVertices, AppState.verticalVertices);
+        } catch (e) {
+            if (!(e instanceof IncompatibleError)) {
+                throw e;
+            }
+
+            console.error(`Invalid boundary conditions.`);
+            console.error(e);
+            this.showMessage("Invalid initial boundary conditions!");
+            AppState.mode = 'design';
+            return;
+        }
 
         for (let i = 1; i < rows; i++) {
             for (let j = 1; j < cols; j++) {
@@ -115,9 +128,13 @@ export const UI = {
                         return;
                     }
                 } catch (e) {
+                    if (!(e instanceof IncompatibleError)) {
+                        throw e;
+                    }
+
                     console.error(`RFFQM Build Failed at [${i}, ${j}] `);
                     console.error(e);
-                    this.showMessage("Incompatible Geometry!");
+                    this.showMessage("Incompatible boundary conditions!");
                     AppState.mode = 'design';
                     return;
                 }

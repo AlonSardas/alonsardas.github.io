@@ -30,8 +30,13 @@ export const MarchingAlgorithm = {
         const vRight = horizontalVertices[1].pos;
         const vUp = verticalVertices[0].pos;
         this.alphas[0][0] = Math.atan2(vUp.y - v.y, vUp.x - v.x) - Math.atan2(vRight.y - v.y, vRight.x - v.x);
-        this.betas[0][0] = this.alphas[0][0];  // Assuming symmetry at the corner; It might be better to let the user define both
-        // console.log(`Corner alpha: ${this.alphas[0][0]}, beta: ${this.betas[0][0]}`);
+        this.betas[0][0] = horizontalVertices[0].alpha - Math.atan2(vUp.y - v.y, vUp.x - v.x);
+
+        if (this.betas[0][0] < 0) {
+            throw new IncompatibleError(`Incompatible angles at corner (0,0): beta is negative (${this.betas[0][0]})`);
+        }
+
+        console.log(`Corner alpha: ${this.alphas[0][0]}, beta: ${this.betas[0][0]}`);
 
         for (let j = 1; j < this.cols; j++) {
             const v = horizontalVertices[j];
@@ -94,10 +99,10 @@ export const MarchingAlgorithm = {
 
         const alpha_d = 2 * Math.PI - angles_sum;
         if (alpha_d < 0) {
-            throw new Error(`Negative angle at ${i},${j}: ${alpha_d}`);
+            throw new IncompatibleError(`Negative angle at ${i},${j}: ${alpha_d}`);
         }
         if (alpha_d > Math.PI) {
-            throw new Error(`Angle beyond PI at ${i},${j}: ${alpha_d}`);
+            throw new IncompatibleError(`Angle beyond PI at ${i},${j}: ${alpha_d}`);
         }
 
         let sigma_a, sigma_b, sigma_c;
@@ -112,7 +117,7 @@ export const MarchingAlgorithm = {
 
         // 4. Second Check (|mu| is close to 1)
         if (Math.abs(Math.abs(mu_abc) - 1) < 1e-7) {
-            throw new Error(`|mu| close to 1 at ${i},${j}: ${mu_abc}`);
+            throw new IncompatibleError(`|mu| close to 1 at ${i},${j}: ${mu_abc}`);
         }
 
         // 5. Calculate beta_d
@@ -141,7 +146,7 @@ export const MarchingAlgorithm = {
         const num = -s + Math.cos(a) * Math.cos(b) + Math.sin(a) * Math.sin(b);
         const denom = Math.cos(b) - s * Math.cos(a);
         if (Math.abs(denom) < 1e-12) {
-            throw new Error(
+            throw new IncompatibleError(
                 `Singular Mu calculation: Denominator is too close to zero (${denom}). ` +
                 `Check if alpha (${a.toFixed(4)}) and beta (${b.toFixed(4)}) are valid.`
             );
@@ -170,7 +175,7 @@ export const MarchingAlgorithm = {
         const angles_sum = alpha_a + alpha_b + alpha_c;
         const det = Math.sin(angles_sum);
 
-        if (Math.abs(det) < 1e-6) throw new Error("Singular geometry: sin(sum) is zero");
+        if (Math.abs(det) < 1e-6) throw new IncompatibleError("Singular geometry: sin(sum) is zero");
 
         const l_cd = (1 / det) * (-Math.sin(alpha_b) * l_ab + Math.sin(alpha_a + alpha_b) * l_ac);
         const l_bd = (1 / det) * (Math.sin(alpha_a + alpha_c) * l_ab - Math.sin(alpha_c) * l_ac);
@@ -178,7 +183,7 @@ export const MarchingAlgorithm = {
         // console.log(`Lengths l_cd: ${l_cd}, l_bd: ${l_bd}`);
 
         if (l_cd <= 0 || l_bd <= 0) {
-            throw new Error(`Incompatible: Non-positive crease length at ${i},${j}`);
+            throw new IncompatibleError(`Non-positive crease length at ${i},${j}`);
         }
 
         const vec_ca = new THREE.Vector3().subVectors(p_A, p_C).normalize();
@@ -198,3 +203,10 @@ export const MarchingAlgorithm = {
         return p_D;
     }
 };
+
+export class IncompatibleError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "IncompatibleError";
+    }
+}

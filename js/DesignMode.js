@@ -55,7 +55,6 @@ export const DesignMode = {
         this.scene.add(sphere);
         this.spheres.push(sphere);
 
-        if (type === 'horizontal' && index === 0) return; // Skip angle ray for first horizontal vertex
         // 2. Create angle ray (Direction depends on type)
         const rayLength = 0.5;
         const totalAngle = vertex.alpha;
